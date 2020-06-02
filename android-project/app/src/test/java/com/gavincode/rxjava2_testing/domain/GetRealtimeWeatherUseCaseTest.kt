@@ -1,8 +1,10 @@
 package com.gavincode.rxjava2_testing.domain
 
+import com.gavincode.rxjava2_testing.util.RxJavaAsyncTestRule
 import io.reactivex.Single
 import io.reactivex.observers.TestObserver
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
@@ -14,6 +16,10 @@ import java.util.concurrent.locks.LockSupport
 class GetRealtimeWeatherUseCaseTest {
 
     lateinit var sut: GetRealtimeWeatherUseCase
+
+    @Rule
+    @JvmField
+    val rxJavaAsyncTestRule = RxJavaAsyncTestRule()
 
     @Mock
     lateinit var weatherRepository: WeatherRepository
