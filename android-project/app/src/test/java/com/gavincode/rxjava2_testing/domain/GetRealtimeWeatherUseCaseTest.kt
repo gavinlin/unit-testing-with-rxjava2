@@ -37,12 +37,12 @@ class GetRealtimeWeatherUseCaseTest {
     @Test
     fun `test Get Realtime Weather With Failure Result`() {
         val testObserver = TestObserver<UseCaseResult<Weather>>()
-        `when`(weatherRepository.getRealtimeWeather()).thenReturn(Single.error(Throwable()))
+        `when`(weatherRepository.getRealtimeWeather()).thenReturn(Single.error(Throwable("Custom Error")))
 
         sut.execute()
             .subscribe(testObserver)
 
         testObserver.assertNoErrors()
-        testObserver.assertValue { it is UseCaseResult.Failure }
+        testObserver.assertValue { it is UseCaseResult.Failure && it.throwable.message == "Custom Error"}
     }
 }
