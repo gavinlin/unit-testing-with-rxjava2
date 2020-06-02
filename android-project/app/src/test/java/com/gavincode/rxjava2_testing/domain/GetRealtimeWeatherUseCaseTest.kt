@@ -8,6 +8,7 @@ import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.junit.MockitoJUnitRunner
+import java.util.concurrent.locks.LockSupport
 
 @RunWith(MockitoJUnitRunner::class)
 class GetRealtimeWeatherUseCaseTest {
@@ -23,7 +24,7 @@ class GetRealtimeWeatherUseCaseTest {
     }
 
     @Test
-    fun `test Get Realtime Weather With Success Result`() {
+    fun `Get Realtime Weather then Success Result Returned`() {
         val testObserver = TestObserver<UseCaseResult<Weather>>()
         `when`(weatherRepository.getRealtimeWeather()).thenReturn(Single.just(Weather(10.0)))
 
@@ -35,7 +36,7 @@ class GetRealtimeWeatherUseCaseTest {
     }
 
     @Test
-    fun `test Get Realtime Weather With Failure Result`() {
+    fun `Get Realtime Weather then Failure Result Returned`() {
         val testObserver = TestObserver<UseCaseResult<Weather>>()
         `when`(weatherRepository.getRealtimeWeather()).thenReturn(Single.error(Throwable("Custom Error")))
 
