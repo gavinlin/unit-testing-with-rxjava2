@@ -18,7 +18,7 @@ class GetRealtimeWeatherUseCaseTest {
         private val SAMPLE_WEATHER  = Weather(10.0)
     }
 
-    lateinit var sut: GetRealtimeWeatherUseCase
+    private lateinit var sut: GetRealtimeWeatherUseCase
 
     @Rule
     @JvmField

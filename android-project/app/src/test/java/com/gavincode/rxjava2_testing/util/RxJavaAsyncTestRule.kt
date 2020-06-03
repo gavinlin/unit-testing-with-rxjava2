@@ -18,12 +18,11 @@ class RxJavaAsyncTestRule : TestRule {
 
                 try {
                     base?.evaluate()
-                } finally{
+                } finally {
                     RxAndroidPlugins.reset()
                     RxJavaPlugins.reset()
                 }
             }
         }
     }
-
 }
