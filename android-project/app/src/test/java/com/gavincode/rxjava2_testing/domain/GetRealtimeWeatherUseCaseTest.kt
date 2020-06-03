@@ -10,10 +10,13 @@ import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.junit.MockitoJUnitRunner
-import java.util.concurrent.locks.LockSupport
 
 @RunWith(MockitoJUnitRunner::class)
 class GetRealtimeWeatherUseCaseTest {
+
+    companion object{
+        private val SAMPLE_WEATHER  = Weather(10.0)
+    }
 
     lateinit var sut: GetRealtimeWeatherUseCase
 
@@ -31,25 +34,24 @@ class GetRealtimeWeatherUseCaseTest {
 
     @Test
     fun `Get Realtime Weather then Success Result Returned`() {
-        val testObserver = TestObserver<UseCaseResult<Weather>>()
-        `when`(weatherRepository.getRealtimeWeather()).thenReturn(Single.just(Weather(10.0)))
+        val testObserver = TestObserver<Weather>()
+        `when`(weatherRepository.getRealtimeWeather()).thenReturn(Single.just(SAMPLE_WEATHER))
 
         sut.execute()
             .subscribe(testObserver)
 
         testObserver.assertNoErrors()
-        testObserver.assertValue { it is UseCaseResult.Success }
+        testObserver.assertValue { it == SAMPLE_WEATHER }
     }
 
     @Test
     fun `Get Realtime Weather then Failure Result Returned`() {
-        val testObserver = TestObserver<UseCaseResult<Weather>>()
+        val testObserver = TestObserver<Weather>()
         `when`(weatherRepository.getRealtimeWeather()).thenReturn(Single.error(Throwable("Custom Error")))
 
         sut.execute()
             .subscribe(testObserver)
 
-        testObserver.assertNoErrors()
-        testObserver.assertValue { it is UseCaseResult.Failure && it.throwable.message == "Custom Error"}
+        testObserver.assertError { it.message == "Custom Error" }
     }
 }

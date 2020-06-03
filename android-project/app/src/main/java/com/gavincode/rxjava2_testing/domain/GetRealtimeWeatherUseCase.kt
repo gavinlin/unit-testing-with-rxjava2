@@ -5,14 +5,8 @@ import io.reactivex.schedulers.Schedulers
 
 class GetRealtimeWeatherUseCase(private val weatherRepository: WeatherRepository) {
 
-    fun execute(): Single<UseCaseResult<Weather>> {
+    fun execute(): Single<Weather> {
         return weatherRepository.getRealtimeWeather()
             .subscribeOn(Schedulers.io())
-            .map {
-                UseCaseResult.Success(it) as UseCaseResult<Weather>
-            }
-            .onErrorResumeNext {
-                Single.just(UseCaseResult.Failure(it) as UseCaseResult<Weather>)
-            }
     }
 }
