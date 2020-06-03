@@ -12,7 +12,7 @@ class GetRealtimeWeatherUseCase(private val weatherRepository: WeatherRepository
                 UseCaseResult.Success(it) as UseCaseResult<Weather>
             }
             .onErrorResumeNext {
-                Single.just(UseCaseResult.Failure<Weather>(it) as UseCaseResult<Weather>)
+                Single.just(UseCaseResult.Failure(it) as UseCaseResult<Weather>)
             }
     }
 }
